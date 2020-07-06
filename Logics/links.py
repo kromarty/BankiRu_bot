@@ -9,7 +9,7 @@ citylinks = {
     "Омск": 'omsk/',
     "Челябинск": 'chelyabinsk/',
     "Ростов-на-дону": 'rostov-na-donu/',
-    "Уфа": 'cash/ufa/',
+    "Уфа": 'ufa/',
     "Волгоград": 'volgograd/',
     "Красноярск": 'krasnoyarsk/',
     "Пермь": 'perm~/',

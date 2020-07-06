@@ -23,10 +23,11 @@ class parsed_message:
 
     def parse(self):
         """Функция поиска ключевых слов/фраз."""
+        cnt = 0
         for curr in currency.currency:
             if any(x in self.message for x in currency.currency[curr]):
                 self.currency = curr
-                self.trigger = True
+                cnt = cnt + 1
                 logging.info("Currency detected: %s" % curr)
         current_date = re.search(r'(0?[1-9]|[12][0-9]|3[01])([\.\\\/-])(0?[1-9]|1[012])\2(((19|20)\d\d)|(\d\d))',
                                  self.message)
@@ -34,18 +35,25 @@ class parsed_message:
             self.date_search = False
             logging.info("No date detected")
         else:
-            self.date_search = True
-            self.date = datetime.strptime(current_date.group(0), '%d.%m.%Y').date()
-            self.trigger = True
-            logging.info("Date detected: %s, further search goes by date" % (current_date.group(0)))
+            try:
+                self.date_search = True
+                self.date = datetime.strptime(current_date.group(0), '%d.%m.%Y').date()
+                cnt = cnt + 1
+                logging.info("Date detected: %s, further search goes by date" % (current_date.group(0)))
+            except Exception:
+                self.date_search = False
+                logging.info("No date detected")
         for region in cities.regions:
             for name in cities.regions[str(region)]:
                 if self.message.find(name) != -1:
                     global default_region
                     default_region = region
                     self.location = region
-                    self.trigger = True
+                    cnt = cnt + 1
                     logging.info("Region match: %s => %s" % (name, region))
-        if self.message.find('курс') != -1 and not self.trigger:
+        if self.message.find('курс') != -1:
+            cnt = cnt + 1
+            logging.info("Search for the exchange rate of all currencies in the region")
+        if cnt > 1:
             self.trigger = True
-            logging.info("Search for the exchange rate of all currencies in the last region")
+

@@ -33,6 +33,7 @@ def bankiru_search(message):
     message_data.parse()
     if message_data.trigger:
         if not message_data.date_search:
+            client.send_message(message.chat.id, "Поиск по городу, дата не обнаружена")
             if message_data.currency != 'all':
                 parser_link = bru_parser.bru_parser(
                     'https://www.banki.ru/products/currency/cash/' + message_data.currency.lower() + '/' +
@@ -50,6 +51,7 @@ def bankiru_search(message):
                     parser_link.default_parse()
                     client.send_message(message.chat.id, c + '\n' + parser_link.default_parse())
         else:
+            client.send_message(message.chat.id, "Поиск по дате")
             if message_data.currency == 'all':
                 for cur in currency.currency:
                     msg = bru_parser.bru_parser(
