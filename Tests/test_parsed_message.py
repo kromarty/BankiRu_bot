@@ -14,7 +14,7 @@ class Testparsed_message(TestCase):
         self.assertEqual(check.location, 'Вологда')
 
     def test_parse_yuan_with_default_city(self):
-        message = 'Почём сейчас китайский юань?'
+        message = 'Курс китайского юаня?'
         message = message.lower()
         check = parsed_message.parsed_message(message)
         check.parse()
@@ -34,12 +34,12 @@ class Testparsed_message(TestCase):
         self.assertEqual(check.location, 'Иваново')
 
     def test_parse_all_currencies_with_default_city(self):
-        message = "Какой курс на сегодня?"
+        message = "Какой курс доллара?"
         message = message.lower()
         check = parsed_message.parsed_message(message)
         check.parse()
         self.assertTrue(check.trigger)
-        self.assertEqual(check.currency, 'all')
+        self.assertEqual(check.currency, 'USD')
         self.assertIsNone(check.date)
         self.assertEqual(check.location, 'Иваново')
     def test_parse_euro_and_date(self):

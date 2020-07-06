@@ -34,6 +34,8 @@ def bankiru_search(message):
     if message_data.trigger:
         if not message_data.date_search:
             client.send_message(message.chat.id, "Поиск по городу, дата не обнаружена")
+            if (not message_data.region_found):
+                client.send_message(message.chat.id, "Город не обнаружен, поиск по последнему найденному городу")
             if message_data.currency != 'all':
                 parser_link = bru_parser.bru_parser(
                     'https://www.banki.ru/products/currency/cash/' + message_data.currency.lower() + '/' +

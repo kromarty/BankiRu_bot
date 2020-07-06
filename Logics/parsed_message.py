@@ -20,6 +20,7 @@ class parsed_message:
         self.date_search = False
         self.date = None
         self.trigger = False
+        self.region_found = False
 
     def parse(self):
         """Функция поиска ключевых слов/фраз."""
@@ -48,6 +49,7 @@ class parsed_message:
                 if self.message.find(name) != -1:
                     global default_region
                     default_region = region
+                    self.region_found = True
                     self.location = region
                     cnt = cnt + 1
                     logging.info("Region match: %s => %s" % (name, region))
@@ -56,4 +58,3 @@ class parsed_message:
             logging.info("Search for the exchange rate of all currencies in the region")
         if cnt > 1:
             self.trigger = True
-
